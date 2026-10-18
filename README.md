@@ -146,6 +146,10 @@ Comparative epoch MSE loss decay curves across the 4 deep architectures:
 Direct visual comparison of RMSE and NASA Industrial Safety Score across candidate architectures:
 ![Benchmark Comparison](figures/model_benchmark_comparison.png)
 
+### F. Temporal Self-Attention Weight Heatmap
+Visualizes the attention distribution $\alpha_t$ across the 30-cycle sliding window, demonstrating how the model concentrates focus onto recent wear acceleration transients prior to failure:
+![Attention Weights Heatmap](figures/attention_weights_heatmap.png)
+
 ---
 
 ## 7. Quickstart & Usage
@@ -279,6 +283,11 @@ GitHub: [@mohammedbasra-star](https://github.com/mohammedbasra-star)
   year = {2026}
 }
 ```
+
+### Academic Literature References
+1. **Saxena, A., Goebel, K., Simon, D., & Eklund, N. (2008).** *"Damage propagation modeling for aircraft engine run-to-failure simulation."* In 2008 International Conference on Prognostics and Health Management (pp. 1-9). IEEE.
+2. **Heimes, F. O. (2008).** *"Recurrent neural networks for remaining useful life estimation."* In 2008 International Conference on Prognostics and Health Management (pp. 1-6). IEEE.
+3. **Zheng, S., Ristovski, K., Farahat, A., & Gupta, C. (2017).** *"Long short-term memory network for remaining useful life estimation."* In 2017 IEEE International Conference on Prognostics and Health Management (ICPHM) (pp. 88-95).
 
 ---
 

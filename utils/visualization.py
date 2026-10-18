@@ -265,3 +265,42 @@ def plot_architecture_benchmark_comparison(
         print(f"[Visualization] Saved Benchmark Comparison -> {save_path}")
 
     return fig
+
+
+def plot_attention_heatmap(
+    attention_weights: np.ndarray,
+    engine_ids: List[int],
+    save_path: Optional[str | Path] = None
+) -> plt.Figure:
+    """
+    Plots temporal attention weights across the sliding window (T=30 cycles)
+    for sample test engines, showing which historical cycles influenced the failure alert most.
+    """
+    fig, ax = plt.subplots(figsize=(10.0, 4.5))
+
+    # attention_weights shape: [n_sample_engines, seq_len]
+    seq_len = attention_weights.shape[1]
+    time_steps = np.arange(1, seq_len + 1)
+
+    im = ax.imshow(attention_weights, cmap="YlOrRd", aspect="auto", interpolation="nearest")
+    cbar = plt.colorbar(im, ax=ax)
+    cbar.set_label("Normalized Attention Weight α_t", rotation=270, labelpad=15)
+
+    ax.set_yticks(np.arange(len(engine_ids)))
+    ax.set_yticklabels([f"Engine #{eid}" for eid in engine_ids])
+    ax.set_xticks(np.arange(0, seq_len, 5))
+    ax.set_xticklabels([f"t - {seq_len - t}" for t in np.arange(0, seq_len, 5)])
+
+    ax.set_xlabel("Relative Time Step in Sliding Window (Cycles)", fontweight="bold")
+    ax.set_ylabel("Inspected Turbofan Unit", fontweight="bold")
+    ax.set_title("Temporal Self-Attention Weight Heatmap (Wear Inception Tracking)", fontweight="bold", pad=12)
+
+    plt.tight_layout()
+
+    if save_path:
+        Path(save_path).parent.mkdir(parents=True, exist_ok=True)
+        plt.savefig(save_path)
+        print(f"[Visualization] Saved Attention Heatmap -> {save_path}")
+
+    return fig
+

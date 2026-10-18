@@ -1,16 +1,14 @@
-"""Models package."""
-from .architectures import (
-    MLPBaseline,
-    CNN1DModel,
-    BidirectionalLSTM,
-    CNNLSTMHybrid,
-    build_model
-)
+"""Models package for turbomachinery degradation and RUL estimation."""
+from .lstm_attention import BiLSTMAttention, TemporalAdditiveAttention
+from .baseline_regressors import BaselineMLP, BaselineRandomForest
+from .architectures import CNN1DModel, CNNLSTMHybrid, build_model
 
 __all__ = [
-    "MLPBaseline",
+    "BiLSTMAttention",
+    "TemporalAdditiveAttention",
+    "BaselineMLP",
+    "BaselineRandomForest",
     "CNN1DModel",
-    "BidirectionalLSTM",
     "CNNLSTMHybrid",
     "build_model"
 ]

@@ -1,7 +1,7 @@
 {
-  "best_model_name": "Bidirectional LSTM",
-  "best_rmse": 10.276535791462734,
-  "nasa_score": 164.9172927413507,
+  "best_model_name": "BiLSTM + Temporal Attention",
+  "best_rmse": 9.76062695849961,
+  "nasa_score": 157.97188573071978,
   "sequence_length": 30,
   "max_rul": 125.0,
   "sensors": [
@@ -52,5 +52,5 @@
     "s_20": 0.2523343303779942,
     "s_21": 0.18897597008521003
   },
-  "timestamp": "2026-10-18 23:54:48"
+  "timestamp": "2026-10-19 00:34:58"
 }
