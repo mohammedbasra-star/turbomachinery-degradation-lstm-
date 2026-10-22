@@ -111,6 +111,12 @@ flowchart TD
 
 ## 5. Benchmark Performance Results (100 Test Engines)
 
+> [!IMPORTANT]
+> **Rigorous Evaluation & Benchmark Integrity Protocol:**
+> 1. **Zero Data Leakage:** Sensor feature normalization (mean and standard deviation) is fitted strictly on the training engines (`train_FD001.txt`) and applied out-of-sample to the test fleet.
+> 2. **Standard Evaluation Window:** Predictions are evaluated strictly on the final operational sliding window ($t = T_{\text{cutoff}}$) for each of the 100 test engines, adhering to the official NASA PHM 2008 challenge protocol.
+> 3. **Piecewise-Linear Ground Truth:** An early health saturation threshold of $RUL_{\max} = 125$ cycles (Heimes, 2008) is adopted to prevent penalizing models during initial healthy operation where sensor signatures are statistically indistinguishable from baseline.
+
 Evaluated on the unseen test fleet of 100 turbofan engines:
 
 | Architecture | Test RMSE (Cycles) | NASA Score ($S$) | MAE (Cycles) | Max Error (Cycles) | Train Time |
