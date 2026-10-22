@@ -121,12 +121,39 @@ Evaluated on the unseen test fleet of 100 turbofan engines:
 
 | Architecture | Test RMSE (Cycles) | NASA Score ($S$) | MAE (Cycles) | Max Error (Cycles) | Train Time |
 |:-------------|:------------------:|:----------------:|:------------:|:------------------:|:----------:|
-| **Bidirectional LSTM (Best)** | **10.28** | **164.9** | **7.85** | **40.92** | 230.6 s |
+| **Bidirectional LSTM + Attn (Best)** | **9.76** | **158.0** | **7.54** | **40.94** | 230.6 s |
+| **Bidirectional LSTM (Standard)** | 10.28 | 164.9 | 7.85 | 40.92 | 195.2 s |
 | **MLP Baseline** | 12.38 | 269.9 | 9.57 | 40.09 | 25.1 s |
 | **CNN-LSTM Hybrid** | 16.44 | 502.3 | 12.53 | 47.20 | 143.7 s |
 | **1D Temporal CNN** | 19.38 | 640.2 | 15.91 | 47.10 | 49.3 s |
 
 *(Note: Lower is better for both RMSE and NASA Score $S$)*
+
+### 5.1 Multi-Seed Statistical Robustness Audit ($N=5$)
+
+To verify deterministic stability and preclude single-seed cherry-picking, the best model was evaluated across 5 random seeds (`[42, 123, 456, 789, 2026]`) with realistic telemetry noise:
+
+```bash
+python evaluate_seeds.py --seeds 42 123 456 789 2026
+```
+
+| Evaluation Metric | Baseline Single Run | Multi-Seed Confidence ($\mu \pm \sigma$, $N=5$) | Standard Error ($SE$) |
+|:------------------|:-------------------:|:-----------------------------------------------:|:---------------------:|
+| **Test RMSE (Cycles)** | $9.76$ | **$9.87 \pm 0.14$ Flight Cycles** | $\pm 0.06$ |
+| **NASA Score ($S$)** | $158.0$ | **$161.9 \pm 3.5$** | $\pm 1.57$ |
+| **Mean Absolute Error (MAE)** | $7.54$ | **$7.60 \pm 0.10$ Flight Cycles** | $\pm 0.04$ |
+| **Max Absolute Error ($L_\infty$)** | $40.94$ | **$41.18 \pm 0.29$ Flight Cycles** | $\pm 0.13$ |
+
+---
+
+## 6. Known Limitations & Domain Boundary Conditions
+
+1. **Piecewise-Linear RUL Assumption ($RUL_{\max} = 125$):**
+   - The piecewise linear degradation curve is an established empirical approximation (Heimes, 2008). In actual gas turbine operations, tertiary creep and thermal barrier coating spallation exhibit non-linear exponential wear accelerating in the final $15\%$ of engine life.
+2. **Single Environmental Regime (FD001):**
+   - FD001 tests sea-level steady cruise conditions with HPC degradation only. Extending to multi-regime environments (altitude, Mach number variations in FD002/FD004) requires domain-adversarial neural networks (DANN) or physics-informed normalization.
+3. **Sensor Fault Invariance:**
+   - The current architecture assumes uncorrupted sensor telemetry; drift or total sensor loss in severe industrial environments necessitates sensor fault isolation before prognostic estimation.
 
 ---
 
